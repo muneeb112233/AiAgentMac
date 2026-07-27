@@ -1,4 +1,21 @@
+.ipynb_checkpoints/
+# Credentials and local secrets
 .env
 .env.local
+*.env
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache and bytecode
 __pycache__/
-.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+
+# IDE and OS specific files
+.vscode/
+.idea/
+.DS_Store
