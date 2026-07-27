@@ -21,7 +21,7 @@ def serpapi_search(query: str):             #Query is expected to be a str thats
         "q": query,
         "hl": "en",
         "gl": "us",
-        "api_key": SecretStr(serp_api_key) if serp_api_key is not None else None            #pydantic verification due to Type Hints 
+        "api_key": serp_api_key           #pydantic verification due to Type Hints 
     }
     search = GoogleSearch(params)
     results = search.get_dict()
@@ -37,45 +37,60 @@ memory= InMemorySaver()
 agent= create_agent(
     model=llm,
     tools=[serpapi_search],
-    system_prompt="You are a Helpful Coding Agent Only Answer Questions Related to Programming and Computers. Basically IT related.",
+    system_prompt="You are a Helpful Agent who Checks for latest information from tools,try to give answer in 5 lines at most",
     checkpointer=memory
 )
-question= input("Enter Your Question for Google Search?")
-# Run the agent
-response=agent.invoke(
-    {"messages": [{"role": "user", "content": question}]},
-    config={"configurable": {"thread_id": "user123"}}
-)
+def ask(msg):
+    r = agent.invoke({"messages": [{"role": "user", "content": msg}]},
+    config={"configurable": {"thread_id": "user123"}})
+    print(r["messages"][-1].content)
 
-# Last Message
-print(response['messages'][-1].content)
-
-# Run the agent
-response=agent.invoke(
-    {"messages": [{"role": "user", "content": "What were we Talking About Earlier ?"}]},
-    config={"configurable": {"thread_id": "user123"}}
-)
-
-# Last Message
-print(response['messages'][-1].content)
-
-question= input("Enter Your Question for Google Search?")
-# Run the agent
-response=agent.invoke(
-    {"messages": [{"role": "user", "content": question}]},
-    config={"configurable": {"thread_id": "user123"}}
-)
-
-# Last Message
-print(response['messages'][-1].content)
+while True:
+    user_input = input("Enter Your Question (or 'quit' to exit): ")
+    if user_input.lower() == "quit":
+        print("Goodbye!")
+        break
+    ask(user_input)
 
 
-# Run the agent
-response=agent.invoke(
-    {"messages": [{"role": "user", "content": "What were we Talking About Earlier ?"}]},
-    config={"configurable": {"thread_id": "user123"}}
-)
+ask("What were we talking about earlier?")
 
-# Last Message
-print(response['messages'][-1].content)
+# question= input("Enter Your Question for Google Search?")
+# # Run the agent
+# response=agent.invoke(
+#     {"messages": [{"role": "user", "content": question}]},
+#     config={"configurable": {"thread_id": "user123"}}
+# )
+
+# # Last Message
+# print(response['messages'][-1].content)
+
+# # Run the agent
+# response=agent.invoke(
+#     {"messages": [{"role": "user", "content": "What were we Talking About Earlier ?"}]},
+#     config={"configurable": {"thread_id": "user123"}}
+# )
+
+# # Last Message
+# print(response['messages'][-1].content)
+
+# question= input("Enter Your Question for Google Search?")
+# # Run the agent
+# response=agent.invoke(
+#     {"messages": [{"role": "user", "content": question}]},
+#     config={"configurable": {"thread_id": "user123"}}
+# )
+
+# # Last Message
+# print(response['messages'][-1].content)
+
+
+# # Run the agent
+# response=agent.invoke(
+#     {"messages": [{"role": "user", "content": "What were we Talking About Earlier ?"}]},
+#     config={"configurable": {"thread_id": "user123"}}
+# )
+
+# # Last Message
+# print(response['messages'][-1].content)
 
