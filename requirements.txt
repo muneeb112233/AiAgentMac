@@ -1,0 +1,10 @@
+streamlit
+langchain
+langchain-google-genai
+langgraph
+yagmail
+imap-tools
+google-search-results
+python-dotenv
+pydantic
+langchain_groq
