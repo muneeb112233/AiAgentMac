@@ -48,7 +48,7 @@ config: RunnableConfig = {"configurable": {"thread_id": st.session_state.thread_
 # ------------------------------------------------------------------
 with st.sidebar:
     st.title(" Frankenstein")
-    st.caption("Your loyal email assistant")
+    st.caption("Your loyal assistant")
 
     st.markdown("### Status")
     st.success("● Agent Online")
@@ -58,7 +58,7 @@ with st.sidebar:
 
     st.markdown("### Available Tools")
     for t in tools_registry:
-        st.markdown(f"- `{t.name}`")
+        st.markdown(f"- `{t.name.replace('_', ' ').capitalize().replace('tool', '').strip()}`")
 
     st.markdown("---")
     if st.button("🗑️ Clear Chat", use_container_width=True):
@@ -134,7 +134,7 @@ if st.session_state.pending_draft:
                 st.rerun()
 
 # Chat input
-user_input = st.chat_input("Tell Frankenstein who to email and what to say...")
+user_input = st.chat_input("Frankenstein at Your Service ...")
 
 if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
